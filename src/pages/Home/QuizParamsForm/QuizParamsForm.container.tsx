@@ -10,22 +10,35 @@ import {
 	TYPE_OPTIONS,
 } from './constants';
 import { QuizParamsForm } from './QuizParamsForm';
-import { QuizParamsFormToDto } from './QuizParamsForm.helper';
-import { TQuizParamsForm } from './types';
+import { quizParamsToDto } from './QuizParamsForm.helper';
+import { TQuizParams } from './types';
 
 export const QuizParamsFormContainer = () => {
-	const [quizParams, setQuizParams] = useState<TQuizParamsForm>({
+	const [quizParams, setQuizParams] = useState<TQuizParams>({
 		questionNumber: 10,
 		category: CATEGORY_OPTIONS[0],
 		difficulty: DIFFICULTY_OPTIONS[0],
 		type: TYPE_OPTIONS[0],
 	});
+	const [fetchError, setFetchError] = useState<undefined | string>();
 
-	const onSubmit: FormEventHandler<HTMLFormElement> = (
+	const onSubmit: FormEventHandler<HTMLFormElement> = async (
 		e: FormEvent<HTMLElement>
 	) => {
 		e.preventDefault();
-		console.log(QuizParamsFormToDto(quizParams));
+
+		fetch(
+			'https://opentdb.com/api.php?' +
+				new URLSearchParams(quizParamsToDto(quizParams)).toString()
+		)
+			.then(async (response) => {
+				console.log(await response.json());
+			})
+			.catch(() => {
+				setFetchError(
+					'Une erreur est survenue lors de la récupération des questions du quiz.'
+				);
+			});
 	};
 
 	const handleQuestionNumberChange: ChangeEventHandler<HTMLInputElement> = (
@@ -39,23 +52,25 @@ export const QuizParamsFormContainer = () => {
 			return;
 		}
 
+		setFetchError(undefined);
 		setQuizParams({
 			...quizParams,
 			questionNumber: Number(event.target.value),
 		});
 	};
 
-	const handleCategoryChange = (category: TQuizParamsForm['category']) => {
+	const handleCategoryChange = (category: TQuizParams['category']) => {
+		setFetchError(undefined);
 		setQuizParams({ ...quizParams, category });
 	};
 
-	const handleDifficultyChange = (
-		difficulty: TQuizParamsForm['difficulty']
-	) => {
+	const handleDifficultyChange = (difficulty: TQuizParams['difficulty']) => {
+		setFetchError(undefined);
 		setQuizParams({ ...quizParams, difficulty });
 	};
 
-	const handleTypeChange = (type: TQuizParamsForm['type']) => {
+	const handleTypeChange = (type: TQuizParams['type']) => {
+		setFetchError(undefined);
 		setQuizParams({ ...quizParams, type });
 	};
 
@@ -70,6 +85,7 @@ export const QuizParamsFormContainer = () => {
 			onCategoryChange={handleCategoryChange}
 			onDifficultyChange={handleDifficultyChange}
 			onTypeChange={handleTypeChange}
+			fetchError={fetchError}
 		/>
 	);
 };

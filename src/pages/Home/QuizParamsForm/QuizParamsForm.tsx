@@ -1,4 +1,5 @@
 import {
+	Alert,
 	Button,
 	Select,
 	TextInput,
@@ -21,6 +22,7 @@ export const QuizParamsForm = ({
 	onQuestionNumberChange,
 	onTypeChange,
 	onSubmit,
+	fetchError,
 }: TQuizParamsFormProps) => (
 	<form className="quiz-params-form" onSubmit={onSubmit}>
 		<TextInput
@@ -68,6 +70,8 @@ export const QuizParamsForm = ({
 				required
 			/>
 		</div>
+
+		{fetchError && <Alert type={'error'}>{fetchError}</Alert>}
 
 		<Button type="submit">Commencer le Quiz</Button>
 	</form>

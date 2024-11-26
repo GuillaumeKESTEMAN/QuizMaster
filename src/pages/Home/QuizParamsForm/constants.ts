@@ -4,26 +4,26 @@ import type { ComponentProps } from 'react';
 export const CATEGORY_OPTIONS: ComponentProps<typeof Select>['value'][] = [
 	{
 		label: 'Toutes les catégories',
-		value: 'any',
+		value: -1,
 	},
 	{
 		label: 'Culture Générale',
-		value: 'general',
+		value: 9,
 	},
 	{
 		label: 'Sports',
-		value: 'sports',
+		value: 21,
 	},
 	{
 		label: 'Histoire',
-		value: 'history',
+		value: 23,
 	},
 ];
 
 export const DIFFICULTY_OPTIONS: ComponentProps<typeof Select>['value'][] = [
 	{
 		label: 'Toute difficulté',
-		value: 'any',
+		value: '',
 	},
 	{
 		label: 'Facile',
@@ -42,7 +42,7 @@ export const DIFFICULTY_OPTIONS: ComponentProps<typeof Select>['value'][] = [
 export const TYPE_OPTIONS: ComponentProps<typeof Select>['value'][] = [
 	{
 		label: 'Tout type',
-		value: 'any',
+		value: '',
 	},
 	{
 		label: 'Choix multiple',

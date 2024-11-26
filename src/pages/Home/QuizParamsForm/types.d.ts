@@ -5,47 +5,27 @@ import type {
 	FormEventHandler,
 } from 'react';
 
-export const CATEGORY_OPTIONS = [
-	{
-		label: 'Toutes les catégories',
-		value: 'any',
-	},
-	{
-		label: 'Culture Générale',
-		value: 'general',
-	},
-	{
-		label: 'Sports',
-		value: 'sports',
-	},
-	{
-		label: 'Histoire',
-		value: 'history',
-	},
-] as const;
-
-export type TQuizParamsForm = {
+export type TQuizParams = {
 	questionNumber: number;
 	category: ComponentProps<typeof Select>['value'];
 	difficulty: ComponentProps<typeof Select>['value'];
 	type: ComponentProps<typeof Select>['value'];
 };
 
-export type TQuizParamsFormDto = {
-	questionNumber: number;
-	category: string;
-	difficulty: string;
-	type: string;
+export type TQuizParamsDto = {
+	amount: string;
+	category?: string;
+	difficulty?: string;
+	type?: string;
 };
 
 export type TQuizParamsFormProps = {
 	onSubmit: FormEventHandler<HTMLFormElement>;
 	onQuestionNumberChange: ChangeEventHandler<HTMLInputElement>;
-	onCategoryChange: (
-		category: SingleValue<TQuizParamsForm['category']>
-	) => void;
+	onCategoryChange: (category: SingleValue<TQuizParams['category']>) => void;
 	onDifficultyChange: (
-		difficulty: SingleValue<TQuizParamsForm['difficulty']>
+		difficulty: SingleValue<TQuizParams['difficulty']>
 	) => void;
-	onTypeChange: (type: SingleValue<TQuizParamsForm['type']>) => void;
-} & TQuizParamsForm;
+	onTypeChange: (type: SingleValue<TQuizParams['type']>) => void;
+	fetchError: string | undefined;
+} & TQuizParams;
