@@ -1,0 +1,17 @@
+.quiz-params-form {
+	display: flex;
+	flex-direction: column;
+	margin-left: 5rem;
+	max-width: 50rem;
+	gap: 2rem;
+
+	&__select-input {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.af-form__input-label {
+		font-size: 1.25rem;
+	}
+}
