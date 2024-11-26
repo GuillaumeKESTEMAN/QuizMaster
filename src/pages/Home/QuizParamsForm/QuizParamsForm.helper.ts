@@ -1,13 +1,26 @@
-import type { TQuizParamsForm, TQuizParamsFormDto } from './types';
+import type { TQuizParams, TQuizParamsDto } from './types';
 
-export const QuizParamsFormToDto = ({
+export const quizParamsToDto = ({
 	questionNumber,
 	category,
 	difficulty,
 	type,
-}: TQuizParamsForm): TQuizParamsFormDto => ({
-	questionNumber: questionNumber,
-	category: category?.value.toString() ?? '',
-	difficulty: difficulty?.value.toString() ?? '',
-	type: type?.value.toString() ?? '',
-});
+}: TQuizParams): TQuizParamsDto => {
+	const quizParamsDto: TQuizParamsDto = {
+		amount: questionNumber === -1 ? '10' : questionNumber.toString(),
+	};
+
+	if (category !== undefined && category?.value !== -1) {
+		quizParamsDto.category = category?.value.toString();
+	}
+
+	if (difficulty !== undefined && difficulty?.value !== '') {
+		quizParamsDto.difficulty = difficulty?.value.toString();
+	}
+
+	if (type !== undefined && type?.value !== '') {
+		quizParamsDto.type = type?.value.toString();
+	}
+
+	return quizParamsDto;
+};
