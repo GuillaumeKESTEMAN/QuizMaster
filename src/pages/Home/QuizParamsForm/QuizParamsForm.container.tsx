@@ -4,14 +4,18 @@ import {
 	type FormEvent,
 	type FormEventHandler,
 } from 'react';
+import { useAppContext } from '../../../shared/context/AppContext';
 import {
 	CATEGORY_OPTIONS,
 	DIFFICULTY_OPTIONS,
 	TYPE_OPTIONS,
 } from './constants';
 import { QuizParamsForm } from './QuizParamsForm';
-import { quizParamsToDto } from './QuizParamsForm.helper';
-import { TQuizParams } from './types';
+import {
+	questionsResponseToQuestions,
+	quizParamsToDto,
+} from './QuizParamsForm.helper';
+import type { TQuestionsResponse, TQuizParams } from './types';
 
 export const QuizParamsFormContainer = () => {
 	const [quizParams, setQuizParams] = useState<TQuizParams>({
@@ -21,8 +25,9 @@ export const QuizParamsFormContainer = () => {
 		type: TYPE_OPTIONS[0],
 	});
 	const [fetchError, setFetchError] = useState<undefined | string>();
+	const { setQuiz } = useAppContext();
 
-	const onSubmit: FormEventHandler<HTMLFormElement> = async (
+	const onSubmit: FormEventHandler<HTMLFormElement> = (
 		e: FormEvent<HTMLElement>
 	) => {
 		e.preventDefault();
@@ -32,7 +37,9 @@ export const QuizParamsFormContainer = () => {
 				new URLSearchParams(quizParamsToDto(quizParams)).toString()
 		)
 			.then(async (response) => {
-				console.log(await response.json());
+				const questionsResponse: TQuestionsResponse =
+					await response.json();
+				setQuiz(questionsResponseToQuestions(questionsResponse));
 			})
 			.catch(() => {
 				setFetchError(

@@ -1,4 +1,5 @@
-import type { TQuizParams, TQuizParamsDto } from './types';
+import type { TQuestion } from '../../../shared/types';
+import type { TQuestionsResponse, TQuizParams, TQuizParamsDto } from './types';
 
 export const quizParamsToDto = ({
 	questionNumber,
@@ -24,3 +25,19 @@ export const quizParamsToDto = ({
 
 	return quizParamsDto;
 };
+
+export const questionsResponseToQuestions = (
+	quizQuestionsResponse: TQuestionsResponse
+): TQuestion[] =>
+	quizQuestionsResponse.results.map(
+		({ question, correct_answer, incorrect_answers }): TQuestion => {
+			const answers: string[] = [...incorrect_answers, correct_answer];
+			answers.sort(() => Math.random() - 0.5);
+
+			return {
+				question,
+				answers,
+				correctAnswerIndex: answers.indexOf(correct_answer),
+			};
+		}
+	);

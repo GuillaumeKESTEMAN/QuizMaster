@@ -8,7 +8,7 @@ export type TAppContextProvider = {
 export type TAppContext = {
 	quiz?: TQuestion[];
 	score?: number;
-	addQuestionToQuiz: (newQuestion: TQuestion) => void;
+	setQuiz: (newQuiz: TQuestion[]) => void;
 	resetQuiz: () => void;
 	incrementScore: () => void;
 	resetScore: () => void;
