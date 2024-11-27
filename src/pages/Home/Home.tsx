@@ -8,7 +8,7 @@ export const Home = () => {
 		<Page>
 			<Title
 				icon={<Svg src={quizIcon} />}
-				firstSubtitle="Répondez à des QCM en fonction des paramètres choisis."
+				firstSubtitle="Répondez à des QCM en anglais en fonction des paramètres choisis."
 				secondSubtitle="Testez vos connaissances maintenant !"
 				classModifier="home"
 			>

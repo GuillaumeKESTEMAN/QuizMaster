@@ -29,3 +29,15 @@ export type TQuizParamsFormProps = {
 	onTypeChange: (type: SingleValue<TQuizParams['type']>) => void;
 	fetchError: string | undefined;
 } & TQuizParams;
+
+export type TQuestionsResponse = {
+	response_code: number;
+	results: {
+		category: string;
+		correct_answer: string;
+		difficulty: string;
+		incorrect_answers: string[];
+		question: string;
+		type: string;
+	}[];
+};
