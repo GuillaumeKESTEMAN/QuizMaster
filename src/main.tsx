@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import { Home } from './pages/Home';
+import { NotFound } from './pages/NotFound';
 import { Quiz } from './pages/Quiz';
 import { Result } from './pages/Result';
 import { AppContextProvider } from './shared/context/AppContext';
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
 					<Route path="/" element={<Home />} />
 					<Route path="/quiz" element={<Quiz />} />
 					<Route path="/result" element={<Result />} />
+					<Route path="/*" element={<NotFound />} />
 				</Routes>
 			</BrowserRouter>
 		</AppContextProvider>

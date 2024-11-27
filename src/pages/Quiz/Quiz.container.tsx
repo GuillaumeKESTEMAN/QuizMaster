@@ -45,7 +45,7 @@ export const QuizContainer = () => {
 			setSelectedAnswer(undefined);
 			setQuestionIndex(questionIndex + 1);
 		} else {
-			navigate('/result');
+			navigate('/result', { replace: true });
 		}
 	};
 
