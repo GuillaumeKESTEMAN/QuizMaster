@@ -20,7 +20,11 @@ export const Quiz = ({
 		<Title firstSubtitle={question}>
 			Question {questionIndex}/{questionsCount} :
 		</Title>
-		<form className="quiz-form" onSubmit={onAnswer}>
+		<form
+			key={`question-${questionIndex}`}
+			className="quiz-form"
+			onSubmit={onAnswer}
+		>
 			<RadioSelect
 				isRequired
 				type="vertical"

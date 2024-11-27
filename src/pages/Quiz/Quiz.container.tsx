@@ -43,6 +43,7 @@ export const QuizContainer = () => {
 		}
 
 		if (questionIndex + 1 < quiz.length) {
+			setSelectedAnswer(undefined);
 			setQuestionIndex(questionIndex + 1);
 		} else {
 			// Handle the end of the quiz here.
