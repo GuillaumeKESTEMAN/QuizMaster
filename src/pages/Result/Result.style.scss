@@ -1,6 +1,7 @@
 .result-title {
 	display: grid;
 	grid-template-columns: 1fr auto;
+	align-items: flex-start;
 }
 
 .result-questions {
