@@ -6,11 +6,15 @@ import {
 	resetQuizHelper,
 	resetScoreHelper,
 } from './helpers';
+import { setUserAnswerHelper } from './helpers/Quiz.helpers';
 import type { TAppContext, TAppContextProvider } from './types';
 
 export const AppContextProvider = ({ children }: TAppContextProvider) => {
 	const [quiz, setQuiz] = useState<TQuestion[] | undefined>();
 	const [score, setScore] = useState<number>(0);
+
+	const setUserAnswer = (questionIndex: number, userAnswerIndex: number) =>
+		setUserAnswerHelper(questionIndex, userAnswerIndex, setQuiz);
 
 	const resetQuiz = () => resetQuizHelper(setQuiz);
 
@@ -23,6 +27,7 @@ export const AppContextProvider = ({ children }: TAppContextProvider) => {
 			quiz,
 			score,
 			setQuiz,
+			setUserAnswer,
 			resetQuiz,
 			incrementScore,
 			resetScore,

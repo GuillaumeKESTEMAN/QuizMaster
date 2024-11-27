@@ -1,15 +1,17 @@
 import { useState, type ChangeEventHandler, type FormEvent } from 'react';
+import { useNavigate } from 'react-router';
 import { useAppContext } from '../../shared/context/AppContext';
 import { useQuiz } from '../../shared/hooks';
 import { Quiz } from './Quiz';
 import { answersToRadioSelectOptions } from './Quiz.helpers';
 
 export const QuizContainer = () => {
-	const { incrementScore } = useAppContext();
+	const { setUserAnswer, incrementScore } = useAppContext();
 	const { quiz } = useQuiz();
 	const [questionIndex, setQuestionIndex] = useState(0);
 	const [selectedAnswer, setSelectedAnswer] = useState<string | undefined>();
 	const [errorMessage, setErrorMessage] = useState<string | undefined>();
+	const navigate = useNavigate();
 
 	if (quiz === undefined) {
 		return null;
@@ -34,11 +36,8 @@ export const QuizContainer = () => {
 			return;
 		}
 
-		const answerIndex = Number(
-			quiz[questionIndex].answers[Number(selectedAnswer)]
-		);
-
-		if (answerIndex === quiz[questionIndex].correctAnswerIndex) {
+		setUserAnswer(questionIndex, Number(selectedAnswer));
+		if (Number(selectedAnswer) === quiz[questionIndex].correctAnswerIndex) {
 			incrementScore();
 		}
 
@@ -46,7 +45,7 @@ export const QuizContainer = () => {
 			setSelectedAnswer(undefined);
 			setQuestionIndex(questionIndex + 1);
 		} else {
-			// Handle the end of the quiz here.
+			navigate('/result');
 		}
 	};
 
