@@ -1,26 +1,15 @@
-import {
-	useEffect,
-	useState,
-	type ChangeEventHandler,
-	type FormEvent,
-} from 'react';
-import { useNavigate } from 'react-router';
+import { useState, type ChangeEventHandler, type FormEvent } from 'react';
 import { useAppContext } from '../../shared/context/AppContext';
+import { useQuiz } from '../../shared/hooks';
 import { Quiz } from './Quiz';
 import { answersToRadioSelectOptions } from './Quiz.helpers';
 
 export const QuizContainer = () => {
-	const { quiz, incrementScore } = useAppContext();
+	const { incrementScore } = useAppContext();
+	const { quiz } = useQuiz();
 	const [questionIndex, setQuestionIndex] = useState(0);
 	const [selectedAnswer, setSelectedAnswer] = useState<string | undefined>();
 	const [errorMessage, setErrorMessage] = useState<string | undefined>();
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (quiz === undefined) {
-			navigate('/');
-		}
-	}, [navigate, quiz]);
 
 	if (quiz === undefined) {
 		return null;
