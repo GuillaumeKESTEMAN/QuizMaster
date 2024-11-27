@@ -1,3 +1,4 @@
+import { decodeHtml } from '../../../shared/helpers';
 import type { TQuestion } from '../../../shared/types';
 import type { TQuestionsResponse, TQuizParams, TQuizParamsDto } from './types';
 
@@ -35,8 +36,8 @@ export const questionsResponseToQuestions = (
 			answers.sort(() => Math.random() - 0.5);
 
 			return {
-				question,
-				answers,
+				question: decodeHtml(question),
+				answers: answers.map(decodeHtml),
 				correctAnswerIndex: answers.indexOf(correct_answer),
 			};
 		}

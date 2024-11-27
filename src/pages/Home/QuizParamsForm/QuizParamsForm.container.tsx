@@ -4,6 +4,7 @@ import {
 	type FormEvent,
 	type FormEventHandler,
 } from 'react';
+import { useNavigate } from 'react-router';
 import { useAppContext } from '../../../shared/context/AppContext';
 import {
 	CATEGORY_OPTIONS,
@@ -26,6 +27,7 @@ export const QuizParamsFormContainer = () => {
 	});
 	const [fetchError, setFetchError] = useState<undefined | string>();
 	const { setQuiz } = useAppContext();
+	const navigate = useNavigate();
 
 	const onSubmit: FormEventHandler<HTMLFormElement> = (
 		e: FormEvent<HTMLElement>
@@ -39,7 +41,17 @@ export const QuizParamsFormContainer = () => {
 			.then(async (response) => {
 				const questionsResponse: TQuestionsResponse =
 					await response.json();
-				setQuiz(questionsResponseToQuestions(questionsResponse));
+				const questions =
+					questionsResponseToQuestions(questionsResponse);
+				setQuiz(questions);
+
+				if (questions.length > 0) {
+					navigate('/quiz');
+				} else {
+					setFetchError(
+						"Aucune question n'a été trouvé pour cette configuration de quiz."
+					);
+				}
 			})
 			.catch(() => {
 				setFetchError(
@@ -59,7 +71,9 @@ export const QuizParamsFormContainer = () => {
 			return;
 		}
 
-		setFetchError(undefined);
+		if (fetchError) {
+			setFetchError(undefined);
+		}
 		setQuizParams({
 			...quizParams,
 			questionNumber: Number(event.target.value),
@@ -67,12 +81,16 @@ export const QuizParamsFormContainer = () => {
 	};
 
 	const handleCategoryChange = (category: TQuizParams['category']) => {
-		setFetchError(undefined);
+		if (fetchError) {
+			setFetchError(undefined);
+		}
 		setQuizParams({ ...quizParams, category });
 	};
 
 	const handleDifficultyChange = (difficulty: TQuizParams['difficulty']) => {
-		setFetchError(undefined);
+		if (fetchError) {
+			setFetchError(undefined);
+		}
 		setQuizParams({ ...quizParams, difficulty });
 	};
 
