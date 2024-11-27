@@ -1,0 +1,27 @@
+.af-card {
+	width: 100%;
+
+	.af-list__item p {
+		margin: 0;
+	}
+}
+
+.af-content-item-mono {
+	--result-answer-color: default;
+
+	.af-content-item-mono__main-text {
+		color: var(--result-answer-color);
+	}
+
+    svg {
+        fill: var(--result-answer-color);
+    }
+
+	&--correct {
+		--result-answer-color: var(--color-green-600);
+	}
+
+	&--incorrect {
+        --result-answer-color: var(--color-red);
+	}
+}

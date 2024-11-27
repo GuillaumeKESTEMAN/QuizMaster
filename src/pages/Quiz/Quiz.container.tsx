@@ -1,26 +1,17 @@
-import {
-	useEffect,
-	useState,
-	type ChangeEventHandler,
-	type FormEvent,
-} from 'react';
+import { useState, type ChangeEventHandler, type FormEvent } from 'react';
 import { useNavigate } from 'react-router';
 import { useAppContext } from '../../shared/context/AppContext';
+import { useQuiz } from '../../shared/hooks';
 import { Quiz } from './Quiz';
 import { answersToRadioSelectOptions } from './Quiz.helpers';
 
 export const QuizContainer = () => {
-	const { quiz, incrementScore } = useAppContext();
+	const { setUserAnswer, incrementScore } = useAppContext();
+	const { quiz } = useQuiz();
 	const [questionIndex, setQuestionIndex] = useState(0);
 	const [selectedAnswer, setSelectedAnswer] = useState<string | undefined>();
 	const [errorMessage, setErrorMessage] = useState<string | undefined>();
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (quiz === undefined) {
-			navigate('/');
-		}
-	}, [navigate, quiz]);
 
 	if (quiz === undefined) {
 		return null;
@@ -45,18 +36,16 @@ export const QuizContainer = () => {
 			return;
 		}
 
-		const answerIndex = Number(
-			quiz[questionIndex].answers[Number(selectedAnswer)]
-		);
-
-		if (answerIndex === quiz[questionIndex].correctAnswerIndex) {
+		setUserAnswer(questionIndex, Number(selectedAnswer));
+		if (Number(selectedAnswer) === quiz[questionIndex].correctAnswerIndex) {
 			incrementScore();
 		}
 
 		if (questionIndex + 1 < quiz.length) {
+			setSelectedAnswer(undefined);
 			setQuestionIndex(questionIndex + 1);
 		} else {
-			// Handle the end of the quiz here.
+			navigate('/result');
 		}
 	};
 

@@ -1,4 +1,4 @@
-export type TQuestion = {
+export type TQuestionResultProps = {
 	question: string;
 	answers: string[];
 	correctAnswerIndex: number;
